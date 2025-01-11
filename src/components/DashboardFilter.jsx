@@ -122,11 +122,15 @@ const StyledFilterWrapper = styled.div`
     justify-content: space-between;
     gap: 20px;
     margin: 40px 0;
-    flex-wrap: wrap; 
+
+    @media screen and (max-width: ${Dimensions.tabletMaxWidth}){
+        flex-wrap: wrap; 
+    }
 
     @media screen and (max-width: ${Dimensions.mobileMaxWidth}){
         display: block;
         margin: 20px 0;
+        flex-wrap: wrap; 
     }
 `
 
