@@ -6,24 +6,41 @@ import fileImage from "../assets/file.png";
 import locationImage from "../assets/location.png";
 import userImage from "../assets/user.png";
 import clockimage from "../assets/clock.png";
+import formatDate from "../utils/FormatDate";
+import decodeHtml from "../utils/DecodeHtml";
 
-const Tender = ({ tenderStyle }) => {
+const Tender = ({ tenderStyle, data, index }) => {
+
+    const {
+        title,
+        region,
+        organisationName,
+        deadlineDate,
+        endDate,
+        valueLow,
+        valueHigh,
+        awardedValue,
+        _id
+    } = data;
+
+    
+
 
     return (
-        <StyledWrapper className={ tenderStyle }>
+        <StyledWrapper className={ tenderStyle } key={ index }>
             <StyledLabel>OFSTED</StyledLabel>
-            <StyledTitle>Supported Accomodation foy Yound People 1</StyledTitle>
+            <StyledTitle>{ decodeHtml(title) }</StyledTitle>
             <StyledContentWrapper className={ tenderStyle }>
                 <StyledItemWrapper className={ tenderStyle }>
                     <StyledItem>
                         <StyledImage src={locationImage }/>
                         <StyledItemTitle>Region: </StyledItemTitle>
-                        <StyledItemLabel>West Midlands</StyledItemLabel>
+                        <StyledItemLabel>{ region }</StyledItemLabel>
                     </StyledItem>
                     <StyledItem>
                         <StyledImage src={userImage }/>
                         <StyledItemTitle>Contractor: </StyledItemTitle>
-                        <StyledItemLabel>Stoke on trent</StyledItemLabel>
+                        <StyledItemLabel>{ decodeHtml(organisationName) }</StyledItemLabel>
                     </StyledItem>
                     <StyledItem>
                         <StyledImage src={fileImage }/>
@@ -33,17 +50,17 @@ const Tender = ({ tenderStyle }) => {
                     <StyledItem>
                         <StyledImage src={clockimage }/>
                         <StyledItemTitle>Closes In: </StyledItemTitle>
-                        <StyledItemLabel>25 December 2024</StyledItemLabel>
+                        <StyledItemLabel>{ formatDate(deadlineDate || endDate) }</StyledItemLabel>
                     </StyledItem>
                 </StyledItemWrapper>
                 <div>
                     <StyledItemTitle>Value</StyledItemTitle>
-                    <StyledTitle className="amount">$34,346</StyledTitle>
+                    <StyledTitle className="amount">£{awardedValue}</StyledTitle>
                 </div>
             </StyledContentWrapper>
             
             <StyledButtons className={ tenderStyle }>
-                <StyledLink className="primary" to="tender/1">Show Interest</StyledLink>
+                <StyledLink className="primary" to={`/tender/${_id}`}>Show Interest</StyledLink>
                 <StyledButton>More Details</StyledButton>
             </StyledButtons>
         </StyledWrapper>

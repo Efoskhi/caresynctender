@@ -1,36 +1,73 @@
 import React from "react";
+import axios from "axios";
+import { base_url } from "../constants/urls";
 
 const useDashboard = () => {
-	const [ filter, setFilter ] = React.useState({
-		input: "",
-		type: [],
+	const [ filters, setFilters ] = React.useState({
+		page: 1,
+		description: "",
+		title: [],
 		regions: [],
 		contracts: [],
 	});
 
-	const handleSelect = (field, value) => {
-		setFilter((prevFilter) => {
-			if (!prevFilter[field].includes(value)) {
-				return {
-					...prevFilter,
-					[field]: [...prevFilter[field], value],
-				};
-			}
-			return prevFilter;
-		});
+	const [ tenders, setTenders ] = React.useState([]);
+	const [ isFetchTenderFailed, setFetchTenderFailed ] = React.useState(false);
+	const [ isLoadingTenders, setLoadingTenders ] = React.useState(true);
+	const [ pagination, setPagintion ] = React.useState({});
+	const styledWrapperRef = React.useRef();
+	const isPaginate = React.useRef(false);
+
+    
+	const paginate = (page) => {
+		isPaginate.current = true;
+		setFilters(prev => ({
+			...prev,
+			page
+		}))
 	}
 
-    const handleInput = (value) => {
-        setFilter(prev => ({
-            ...prev,
-            input: value
-        }))
-    }
+	const getAllTenders = async () => {
+		setLoadingTenders(true);
+		try {
+			const { data } = await axios.post(`${base_url}/api/tender/retrieve`, filters);
+			isPaginate.current = false;
+			 
+			if(data.status === "success"){
+				setTenders(data.data.tenders);
+				setPagintion(data.data.pagination)
+			} else {
+				setFetchTenderFailed(true)
+			}
+
+			if (styledWrapperRef.current) {
+				styledWrapperRef.current.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start',
+				});
+			}
+
+			setLoadingTenders(false);
+		} catch(e) {
+			console.log("getAllTenders", e)
+		}
+	}
+
+	React.useEffect(() => {
+		getAllTenders();
+	}, [filters])
+
 
 	return {
-		filter,
-        handleSelect,
-        handleInput
+		tenders,
+		isFetchTenderFailed,
+		filters,
+		isLoadingTenders,
+		pagination,
+		styledWrapperRef,
+		setFilters,
+		paginate,
+		getAllTenders,
 	};
 };
 

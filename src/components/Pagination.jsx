@@ -2,24 +2,92 @@ import styled from "styled-components";
 import Colors from "../theme/Colors";
 import Dimensions from "../theme/Dimensions.js";
 
-const Pagination = () => {
+const Pagination = ({ data, paginate }) => {
+    const { page, totalPages, totalResult, pageSize } = data;
+
+    const generatePageNumbers = () => {
+        const pages = [];
+        const range = 2; // Number of pages to show before and after current page
+
+        // Always show first page (1) and last page (totalPages)
+        if (totalPages > 1 && page > 1) pages.push(1);
+
+        // Display pages around the current page
+        if (page - range > 2) {
+            pages.push('...'); // Add ellipsis when there are skipped pages
+        }
+
+        for (let i = Math.max(2, page - range); i < page; i++) {
+            pages.push(i);
+        }
+
+        pages.push(page); // Always show current page
+
+        for (let i = page + 1; i <= Math.min(totalPages - 1, page + range); i++) {
+            pages.push(i);
+        }
+
+        if (page + range < totalPages - 1) {
+            pages.push('...'); // Add ellipsis when there are skipped pages
+        }
+
+        // Always show last page (totalPages) if it's not already included
+        if (totalPages > 1 && pages[pages.length - 1] !== totalPages) {
+            pages.push(totalPages);
+        }
+
+        return pages;
+    };
+
+    const handlePrev = () => {
+        if (page > 1) {
+            paginate(page - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (page < totalPages) {
+            paginate(page + 1);
+        }
+    };
+
+    const pageNumbers = generatePageNumbers();
 
     return (
         <StyledWrapper>
-            <StyledTitle>Showing <StyledTitle className="pageSize">12 tenders</StyledTitle> Per Page</StyledTitle>
+            <StyledTitle>
+                Showing <StyledPageSize>{pageSize} tenders</StyledPageSize> per page
+            </StyledTitle>
             <StyledPagesWrapper>
-                <StyledPage>Prev</StyledPage>
-                <StyledPage className="active">1</StyledPage>
-                <StyledPage>2</StyledPage>
-                <StyledPage>3</StyledPage>
-                <StyledPage>4</StyledPage>
-                <StyledPage className="next">Next</StyledPage>
+                <StyledPage onClick={handlePrev} disabled={page === 1}>
+                    Prev
+                </StyledPage>
+                {pageNumbers.map((pageNumber, index) =>
+                    pageNumber === '...' ? (
+                        <StyledPage key={index} className="dots">
+                            ...
+                        </StyledPage>
+                    ) : (
+                        <StyledPage
+                            key={index}
+                            className={pageNumber === page ? 'active' : ''}
+                            onClick={() => paginate(pageNumber)}
+                        >
+                            {pageNumber}
+                        </StyledPage>
+                    )
+                )}
+                <StyledPage onClick={handleNext} disabled={page === totalPages}>
+                    Next
+                </StyledPage>
             </StyledPagesWrapper>
         </StyledWrapper>
-    )
-}
+    );
+};
 
 export default Pagination;
+
+
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -35,10 +103,10 @@ const StyledWrapper = styled.div`
 
 const StyledTitle = styled.label`
     font-size: 20px;
+`
 
-    &.pageSize {
-        color: ${Colors.secondary_green}
-    }
+const StyledPageSize = styled.span`
+    color: ${Colors.secondary_green}
 `
 
 const StyledPagesWrapper = styled.div`

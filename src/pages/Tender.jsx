@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { IonIcon } from "@ionic/react";
 import { chevronBack } from "ionicons/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
+import useTender from "../hooks/useTender";
+import TenderSkeletonLoading from "../components/TenderSkeletonLoading";
+import formatDate from "../utils/FormatDate";
+import decodeHtml from "../utils/DecodeHtml";
 
 import Colors from "../theme/Colors";
 import Dimensions from "../theme/Dimensions";
@@ -10,8 +14,15 @@ import locationImage from "../assets/location.png";
 import userImage from "../assets/user.png";
 import clockimage from "../assets/clock.png";
 
+
 const Tender = () => {
     const navigate = useNavigate();
+
+    const {
+        tenderDetails,
+        isLoading,
+        isError
+    } = useTender();
 
     const goBack = () => {
         navigate(-1);
@@ -27,84 +38,93 @@ const Tender = () => {
                 <StyledTenderText>Tender Details</StyledTenderText>
             </StyledHeaderWrapper>
             <StyledContainer>
-                <StyledTitle>Supported Accommodation for Young People</StyledTitle>
+                {isLoading ? (
+                    <TenderSkeletonLoading/>
+                ) : (
+                    <>
+                        <StyledTitle>{ decodeHtml(tenderDetails.title) }</StyledTitle>
 
-                <StyledPageContent>
-                    <StyledContentWrapper>
-                        <StyledContentHeader>
-                            <StyledHeaderLabel>OFSTED</StyledHeaderLabel>
-                            <StyledHeaderTitle>Contract Value/Annum: <StyledBold>£100,000</StyledBold></StyledHeaderTitle>
-                        </StyledContentHeader>
-                        <StyledHeaderTitle>Seeking qualified providers for supported accommodation services.</StyledHeaderTitle>
-                        <StyledHighlightsWrapper>
-                            <StyledBold>Key Highlights</StyledBold>
-                            <StyledUL>
-                                <StyledLI>Scope: OFSTED</StyledLI>
-                                <StyledLI>Coverage: West Midlands</StyledLI>
-                                <StyledLI>Contract Term: 25 December 2024</StyledLI>
-                                <StyledLI>Potential Value: £100,000</StyledLI>
-                            </StyledUL>
-                        </StyledHighlightsWrapper>
+                        <StyledPageContent>
+                            <StyledContentWrapper>
+                                <StyledContentHeader>
+                                    <StyledHeaderLabel>OFSTED</StyledHeaderLabel>
+                                    <StyledHeaderTitle>Contract Value/Annum: <StyledBold>£{tenderDetails.awardedValue}</StyledBold></StyledHeaderTitle>
+                                </StyledContentHeader>
+                                {/* <StyledHeaderTitle>Seeking qualified providers for supported accommodation services.</StyledHeaderTitle> */}
+                                <StyledHighlightsWrapper>
+                                    <StyledBold>Key Highlights</StyledBold>
+                                    <StyledUL>
+                                        <StyledLI>Scope: OFSTED</StyledLI>
+                                        <StyledLI>Coverage: {tenderDetails.region}</StyledLI>
+                                        <StyledLI>Contract Term: {formatDate(tenderDetails.deadlineDate || tenderDetails.endDate) }</StyledLI>
+                                        <StyledLI>Potential Value: £{tenderDetails.valueHigh}</StyledLI>
+                                    </StyledUL>
+                                </StyledHighlightsWrapper>
 
-                        <StyledItemWrapper>
-                            <StyledItem>
-                                <StyledImage src={locationImage }/>
-                                <StyledItemTitle>Region: </StyledItemTitle>
-                                <StyledItemLabel>West Midlands</StyledItemLabel>
-                            </StyledItem>
-                            <StyledItem>
-                                <StyledImage src={userImage }/>
-                                <StyledItemTitle>Contracting Authority: </StyledItemTitle>
-                                <StyledItemLabel>Stoke on trent</StyledItemLabel>
-                            </StyledItem>
-                            <StyledItem>
-                                <StyledImage src={fileImage }/>
-                                <StyledItemTitle>Requirement: </StyledItemTitle>
-                                <StyledItemLabel>OFSTED</StyledItemLabel>
-                            </StyledItem>
-                            <StyledItem>
-                                <StyledImage src={clockimage }/>
-                                <StyledItemTitle>Closing Date: </StyledItemTitle>
-                                <StyledItemLabel>25 December 2024</StyledItemLabel>
-                            </StyledItem>
-                        </StyledItemWrapper>
+                                <StyledItemWrapper>
+                                    <StyledItem>
+                                        <StyledImage src={locationImage }/>
+                                        <StyledItemTitle>Region: </StyledItemTitle>
+                                        <StyledItemLabel>{tenderDetails.region}</StyledItemLabel>
+                                    </StyledItem>
+                                    <StyledItem>
+                                        <StyledImage src={userImage }/>
+                                        <StyledItemTitle>Contracting Authority: </StyledItemTitle>
+                                        <StyledItemLabel>{tenderDetails.organizationName}</StyledItemLabel>
+                                    </StyledItem>
+                                    <StyledItem>
+                                        <StyledImage src={fileImage }/>
+                                        <StyledItemTitle>Requirement: </StyledItemTitle>
+                                        <StyledItemLabel>OFSTED</StyledItemLabel>
+                                    </StyledItem>
+                                    <StyledItem>
+                                        <StyledImage src={clockimage }/>
+                                        <StyledItemTitle>Closing Date: </StyledItemTitle>
+                                        <StyledItemLabel>{formatDate(tenderDetails.deadlineDate || tenderDetails.endDate) }</StyledItemLabel>
+                                    </StyledItem>
+                                </StyledItemWrapper>
 
-                        <StyledButton>Show Interest</StyledButton>
-                    </StyledContentWrapper>
+                                <StyledButton>Show Interest</StyledButton>
+                            </StyledContentWrapper>
 
-                    <StyledContentWrapper>
-                        <StyledBold className="colored">Bid Requirement</StyledBold>
-                        <StyledHeaderTitle>To express interest in this tender, bidders must meet the following requirements:</StyledHeaderTitle>
-                        <StyledOL>
-                            <StyledLI className="ol">Provide a CQC Registration Certificate.</StyledLI>
-                            <StyledLI className="ol">Submit a safeguarding policy.</StyledLI>
-                            <StyledLI className="ol">
-                                Demonstrate financial stability, with supporting documents such as:
-                                <StyledUL>
-                                    <StyledLI>Audited accounts or turnover statements.</StyledLI>
-                                    <StyledLI>Profit and loss statements and balance sheets.</StyledLI>
-                                </StyledUL>
-                            </StyledLI>
-                            <StyledLI className="ol">
-                                Proof of insurance coverage, including:
-                                <StyledUL>
-                                    <StyledLI>Employer's Liability: £10m</StyledLI>
-                                    <StyledLI>Public Liability: £10m</StyledLI>
-                                    <StyledLI>Professional Indemnity: £5m</StyledLI>
-                                </StyledUL>
-                            </StyledLI>
-                            <StyledLI className="ol">Showcase technical expertise through examples of similar contracts.</StyledLI>
-                        </StyledOL>
+                            <StyledContentWrapper>
+                                <StyledBold className="colored">Bid Requirement</StyledBold>
+                                <StyledDescription>{decodeHtml(tenderDetails.description) }</StyledDescription>
 
-                        <StyledContactUsWrapper>
-                            <div>
-                                <StyledContactUsTitle>For a full list of requirements,</StyledContactUsTitle>
-                                <StyledContactUsLabel>contact us for tailored guidance</StyledContactUsLabel>
-                            </div>
-                            <StyledButton className="contactUs">Contact Us</StyledButton>
-                        </StyledContactUsWrapper>
-                    </StyledContentWrapper>
-                </StyledPageContent>
+                                {/* <StyledHeaderTitle>To express interest in this tender, bidders must meet the following requirements:</StyledHeaderTitle>
+                                <StyledOL>
+                                    <StyledLI className="ol">Provide a CQC Registration Certificate.</StyledLI>
+                                    <StyledLI className="ol">Submit a safeguarding policy.</StyledLI>
+                                    <StyledLI className="ol">
+                                        Demonstrate financial stability, with supporting documents such as:
+                                        <StyledUL>
+                                            <StyledLI>Audited accounts or turnover statements.</StyledLI>
+                                            <StyledLI>Profit and loss statements and balance sheets.</StyledLI>
+                                        </StyledUL>
+                                    </StyledLI>
+                                    <StyledLI className="ol">
+                                        Proof of insurance coverage, including:
+                                        <StyledUL>
+                                            <StyledLI>Employer's Liability: £10m</StyledLI>
+                                            <StyledLI>Public Liability: £10m</StyledLI>
+                                            <StyledLI>Professional Indemnity: £5m</StyledLI>
+                                        </StyledUL>
+                                    </StyledLI>
+                                    <StyledLI className="ol">Showcase technical expertise through examples of similar contracts.</StyledLI>
+                                </StyledOL> */}
+
+                                <StyledContactUsWrapper>
+                                    <div>
+                                        <StyledContactUsTitle>For a full list of requirements,</StyledContactUsTitle>
+                                        <StyledContactUsLabel>contact us for tailored guidance</StyledContactUsLabel>
+                                    </div>
+                                    <StyledButton className="contactUs">Contact Us</StyledButton>
+                                </StyledContactUsWrapper>
+                            </StyledContentWrapper>
+                        </StyledPageContent>
+                    </>
+                )}
+                
             </StyledContainer>
         </StyledWrapper>
     )
@@ -207,6 +227,12 @@ const StyledBold = styled.b`
     &.colored {
         color: ${Colors.secondary_green}
     }
+`
+
+const StyledDescription = styled.p`
+    color: ${Colors.secondary_black};
+    white-space: pre-wrap;
+    margin-bottom: 10px;
 `
 
 const StyledHighlightsWrapper = styled.div`
