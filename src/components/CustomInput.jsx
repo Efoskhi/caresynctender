@@ -8,9 +8,9 @@ import useCustomInput from "../hooks/useCustomInput";
 
 import CustomSelect, { StyledInputWrapper, StyledIonIcon, StyledInput } from "./CustomSelect";
 
-const CustomInput = ({ filters, setFilters, getAllTenders }) => {
+const CustomInput = ({ filters, setFilters }) => {
 
-    const { handleInput, handleSearch } = useCustomInput({ setFilters })
+    const { handleInput, handleSearch, tenderFilters } = useCustomInput({ setFilters })
 
     return (
         <>
@@ -24,18 +24,21 @@ const CustomInput = ({ filters, setFilters, getAllTenders }) => {
                 field="title"
                 filters={filters}
                 setFilters={setFilters}
+                tenderFilters={tenderFilters}
             />
             <CustomSelect 
                 label="Regions" 
                 field="regions"
                 filters={filters}
                 setFilters={setFilters}
+                tenderFilters={tenderFilters}
             />
             <CustomSelect 
                 label="Contracts" 
                 field="contracts"
                 filters={filters}
                 setFilters={setFilters}
+                tenderFilters={tenderFilters}
             />
         </>    
     )

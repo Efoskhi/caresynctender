@@ -31,7 +31,6 @@ const useDashboard = () => {
 		setLoadingTenders(true);
 		try {
 			const { data } = await axios.post(`${base_url}/api/tender/retrieve`, filters);
-			isPaginate.current = false;
 			 
 			if(data.status === "success"){
 				setTenders(data.data.tenders);
@@ -40,12 +39,13 @@ const useDashboard = () => {
 				setFetchTenderFailed(true)
 			}
 
-			if (styledWrapperRef.current) {
+			if (styledWrapperRef.current && isPaginate.current) {
 				styledWrapperRef.current.scrollIntoView({
 					behavior: 'smooth',
 					block: 'start',
 				});
 			}
+			isPaginate.current = false;
 
 			setLoadingTenders(false);
 		} catch(e) {

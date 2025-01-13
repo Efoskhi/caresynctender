@@ -20,19 +20,10 @@ const DashboardFilter = () => {
 		tenders,
 		isLoadingTenders,
 		pagination,
-		selectedWrapperRefs,
-		selectContentRefs,
-		scrollPositions,
-		selectSearches,
-		inputRefs,
-        handleSelect,
-		handleRemoveSelectedOption,
         styledWrapperRef,
 		paginate,
         setFilters,
         getAllTenders,
-		handleSelectSearch,
-		handleFocus
 	} = dashboardHooks;
 
     

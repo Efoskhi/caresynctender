@@ -6,6 +6,7 @@ import useTender from "../hooks/useTender";
 import TenderSkeletonLoading from "../components/TenderSkeletonLoading";
 import formatDate from "../utils/FormatDate";
 import decodeHtml from "../utils/DecodeHtml";
+import formatNumber from "../utils/FormatNumber";
 
 import Colors from "../theme/Colors";
 import Dimensions from "../theme/Dimensions";
@@ -31,10 +32,10 @@ const Tender = () => {
     return (
         <StyledWrapper>
             <StyledHeaderWrapper>
-                <StyledBackWrapper>
+                {/* <StyledBackWrapper>
                     <StyledIcon icon={chevronBack}/>
                     <StyledLink onClick={goBack}>Go Back</StyledLink>
-                </StyledBackWrapper>
+                </StyledBackWrapper> */}
                 <StyledTenderText>Tender Details</StyledTenderText>
             </StyledHeaderWrapper>
             <StyledContainer>
@@ -47,17 +48,17 @@ const Tender = () => {
                         <StyledPageContent>
                             <StyledContentWrapper>
                                 <StyledContentHeader>
-                                    <StyledHeaderLabel>OFSTED</StyledHeaderLabel>
+                                    {/* <StyledHeaderLabel>OFSTED</StyledHeaderLabel> */}
                                     <StyledHeaderTitle>Contract Value/Annum: <StyledBold>£{tenderDetails.awardedValue}</StyledBold></StyledHeaderTitle>
                                 </StyledContentHeader>
-                                {/* <StyledHeaderTitle>Seeking qualified providers for supported accommodation services.</StyledHeaderTitle> */}
+                                <StyledHeaderTitle>{tenderDetails.cpvDescription}</StyledHeaderTitle>
                                 <StyledHighlightsWrapper>
                                     <StyledBold>Key Highlights</StyledBold>
                                     <StyledUL>
-                                        <StyledLI>Scope: OFSTED</StyledLI>
-                                        <StyledLI>Coverage: {tenderDetails.region}</StyledLI>
+                                        {/* <StyledLI>Scope: OFSTED</StyledLI> */}
+                                        <StyledLI>Coverage: {tenderDetails.region.split(",")[0]}</StyledLI>
                                         <StyledLI>Contract Term: {formatDate(tenderDetails.deadlineDate || tenderDetails.endDate) }</StyledLI>
-                                        <StyledLI>Potential Value: £{tenderDetails.valueHigh}</StyledLI>
+                                        <StyledLI>Potential Value: {tenderDetails.valueLow === 0 ? "Not Avaliable" : `£${formatNumber(tenderDetails.valueLow)}`}</StyledLI>
                                     </StyledUL>
                                 </StyledHighlightsWrapper>
 
@@ -65,18 +66,18 @@ const Tender = () => {
                                     <StyledItem>
                                         <StyledImage src={locationImage }/>
                                         <StyledItemTitle>Region: </StyledItemTitle>
-                                        <StyledItemLabel>{tenderDetails.region}</StyledItemLabel>
+                                        <StyledItemLabel>{tenderDetails.region.split(",")[0]}</StyledItemLabel>
                                     </StyledItem>
                                     <StyledItem>
                                         <StyledImage src={userImage }/>
                                         <StyledItemTitle>Contracting Authority: </StyledItemTitle>
                                         <StyledItemLabel>{tenderDetails.organizationName}</StyledItemLabel>
                                     </StyledItem>
-                                    <StyledItem>
+                                    {/* <StyledItem>
                                         <StyledImage src={fileImage }/>
                                         <StyledItemTitle>Requirement: </StyledItemTitle>
                                         <StyledItemLabel>OFSTED</StyledItemLabel>
-                                    </StyledItem>
+                                    </StyledItem> */}
                                     <StyledItem>
                                         <StyledImage src={clockimage }/>
                                         <StyledItemTitle>Closing Date: </StyledItemTitle>

@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { keyframes } from "styled-components";
 import DashboardFilter from "../components/DashboardFilter.jsx";
 import Colors from "../theme/Colors.js";
@@ -17,7 +18,7 @@ import bidImage2 from "../assets/bidimage2.jpg";
 import bidImage3 from "../assets/bidimage3.jpg";
 import blackManImage from "../assets/blackman.png";
 
-const Dashboard = () => {
+const Dashboard = React.memo(() => {
 
     return (
         <>
@@ -120,7 +121,7 @@ const Dashboard = () => {
             <Footer/>
         </>
     )
-}
+})
 
 export default Dashboard;
 

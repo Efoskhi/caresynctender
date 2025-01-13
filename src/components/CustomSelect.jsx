@@ -7,28 +7,17 @@ import Dimensions from "../theme/Dimensions";
 import useCustomInput from "../hooks/useCustomInput";
 
 
-const CustomSelect = ({ label, field, filters, setFilters }) => {
+const CustomSelect = ({ label, field, filters, setFilters, tenderFilters }) => {
     const [ openSelect, setOpenSelect ] = React.useState(null);
     const wrapperRef = React.useRef(null);
 
 
-    const dashboardHooks = useCustomInput({ setFilters });
+    const dashboardHooks = useCustomInput({ setFilters, shouldGetTenderFilters: false });
 
     const {
-		tenders,
-		tenderFilters,
-		isFetchTenderFailed,
-		selectedWrapperRefs,
-		selectContentRefs,
-		scrollPositions,
-		selectSearches,
-		inputRefs,
         handleSelect,
 		handleRemoveSelectedOption,
-        handleInput,
-		paginate,
 		handleSelectSearch,
-		handleFocus
 	} = dashboardHooks;
 
     

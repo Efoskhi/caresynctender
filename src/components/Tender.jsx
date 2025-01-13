@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import Colors from "../theme/Colors";
 import Dimensions from "../theme/Dimensions";
 import fileImage from "../assets/file.png";
@@ -7,7 +7,12 @@ import locationImage from "../assets/location.png";
 import userImage from "../assets/user.png";
 import clockimage from "../assets/clock.png";
 import formatDate from "../utils/FormatDate";
+import formatNumber from "../utils/FormatNumber";
 import decodeHtml from "../utils/DecodeHtml";
+
+const TenderComp = ({ tenderStyle, data, index }) => {
+
+}
 
 const Tender = ({ tenderStyle, data, index }) => {
 
@@ -20,15 +25,19 @@ const Tender = ({ tenderStyle, data, index }) => {
         valueLow,
         valueHigh,
         awardedValue,
-        _id
+        _id,
+        contactDetails,
+        cpvDescription
     } = data;
 
     
-
+    const handleNavigate  = () => {
+        window.open(`/tender/${_id}`, "_blank");
+    }
 
     return (
         <StyledWrapper className={ tenderStyle } key={ index }>
-            <StyledLabel>OFSTED</StyledLabel>
+            {/* <StyledLabel>OFSTED</StyledLabel> */}
             <StyledTitle>{ decodeHtml(title) }</StyledTitle>
             <StyledContentWrapper className={ tenderStyle }>
                 <StyledItemWrapper className={ tenderStyle }>
@@ -40,13 +49,13 @@ const Tender = ({ tenderStyle, data, index }) => {
                     <StyledItem>
                         <StyledImage src={userImage }/>
                         <StyledItemTitle>Contractor: </StyledItemTitle>
-                        <StyledItemLabel>{ decodeHtml(organisationName) }</StyledItemLabel>
+                        <StyledItemLabel>{ decodeHtml(contactDetails.town) }</StyledItemLabel>
                     </StyledItem>
-                    <StyledItem>
+                    {/* <StyledItem>
                         <StyledImage src={fileImage }/>
                         <StyledItemTitle>Requirement: </StyledItemTitle>
                         <StyledItemLabel>OFSTED</StyledItemLabel>
-                    </StyledItem>
+                    </StyledItem> */}
                     <StyledItem>
                         <StyledImage src={clockimage }/>
                         <StyledItemTitle>Closes In: </StyledItemTitle>
@@ -54,14 +63,14 @@ const Tender = ({ tenderStyle, data, index }) => {
                     </StyledItem>
                 </StyledItemWrapper>
                 <div>
-                    <StyledItemTitle>Value</StyledItemTitle>
-                    <StyledTitle className="amount">£{awardedValue}</StyledTitle>
+                    <StyledItemTitle>Value From</StyledItemTitle>
+                    <StyledTitle className="amount">{valueLow === 0 ? "Not Avaliable" : `£${formatNumber(valueLow)}`}</StyledTitle>
                 </div>
             </StyledContentWrapper>
             
             <StyledButtons className={ tenderStyle }>
-                <StyledLink className="primary" to={`/tender/${_id}`}>Show Interest</StyledLink>
-                <StyledButton>More Details</StyledButton>
+                <StyledLink className="primary" to={`/tender/${_id}`} target="_blank">Show Interest</StyledLink>
+                <StyledButton onClick={handleNavigate}>More Details</StyledButton>
             </StyledButtons>
         </StyledWrapper>
     )

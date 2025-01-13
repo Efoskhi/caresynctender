@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { base_url } from "../constants/urls";
 
-const useCustomInput = ({ setFilters }) => {
+const useCustomInput = ({ setFilters, shouldGetTenderFilters = true }) => {
 	const [ tenderFilters, setTenderFilters ] = React.useState({
 		title: [],
 		regions: [],
@@ -87,7 +87,7 @@ const useCustomInput = ({ setFilters }) => {
 	}
 
 	React.useEffect(() => {
-		getTenderFilters();
+		if(shouldGetTenderFilters) getTenderFilters();
 	}, [])
 
 
