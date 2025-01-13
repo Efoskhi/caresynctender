@@ -51,6 +51,10 @@ const Pagination = ({ data, paginate }) => {
         }
     };
 
+    const handlePaginate = () => {
+
+    }
+
     const pageNumbers = generatePageNumbers();
 
     return (
@@ -64,7 +68,7 @@ const Pagination = ({ data, paginate }) => {
                 </StyledPage>
                 {pageNumbers.map((pageNumber, index) =>
                     pageNumber === '...' ? (
-                        <StyledPage key={index} className="dots">
+                        <StyledPage key={index} className="dots" disabled={true}>
                             ...
                         </StyledPage>
                     ) : (
@@ -114,14 +118,17 @@ const StyledPagesWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    overflow-x: auto;
 
     @media screen and (max-width: ${Dimensions.mobileMaxWidth}){
        margin: 20px 0;
+        // flex-wrap: wrap;
+
     }
 `
 
 const StyledPage = styled.button`
-    width: 55px;
+    width: 20px;
     background: transparent;
     font-size: 20px;
     border: 1px solid ${Colors.divider};

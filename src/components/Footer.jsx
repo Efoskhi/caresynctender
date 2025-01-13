@@ -86,8 +86,10 @@ const StyledInputLabel = styled.p`
 
 const StyledInputWrapper = styled.div`
     display: flex;
+    grid-template-columns: auto auto;
     gap: 5px;
     margin: 15px 0;
+
 `
 
 const StyledInputBox = styled.div`
@@ -98,6 +100,8 @@ const StyledInputBox = styled.div`
     background: white;
     padding: 10px;
     border-radius: 10px;
+    flex-grow: 1;
+    // width: 60%;
 `
 
 const StyledIcon = styled(IonIcon)`
@@ -111,7 +115,9 @@ const StyledInput = styled.input`
 const StyledButton = styled.button`
     background: ${Colors.secondary_green};
     color: white;
-    width: 100px;
+        flex-grow: 1;
+
+    // width: 30%;
     border-radius: 10px;
 `
 
