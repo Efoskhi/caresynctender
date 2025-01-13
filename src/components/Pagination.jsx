@@ -118,17 +118,18 @@ const StyledPagesWrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    overflow-x: auto;
 
     @media screen and (max-width: ${Dimensions.mobileMaxWidth}){
-       margin: 20px 0;
+        margin: 20px 0;
+        overflow-x: auto;
+
         // flex-wrap: wrap;
 
     }
 `
 
 const StyledPage = styled.button`
-    width: 20px;
+    width: 55px;
     background: transparent;
     font-size: 20px;
     border: 1px solid ${Colors.divider};
