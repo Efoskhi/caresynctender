@@ -51,7 +51,7 @@ const Tender = () => {
                                     {/* <StyledHeaderLabel>OFSTED</StyledHeaderLabel> */}
                                     <StyledHeaderTitle>Contract Value/Annum: <StyledBold>£{tenderDetails.awardedValue}</StyledBold></StyledHeaderTitle>
                                 </StyledContentHeader>
-                                <StyledHeaderTitle>{tenderDetails.cpvDescription}</StyledHeaderTitle>
+                                <StyledHeaderTitle>{tenderDetails.cpvDescription.split(/\s+and\s+/i).slice(0, 3).join(', ')}</StyledHeaderTitle>
                                 <StyledHighlightsWrapper>
                                     <StyledBold>Key Highlights</StyledBold>
                                     <StyledUL>
