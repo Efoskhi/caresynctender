@@ -35,7 +35,7 @@ const Tender = ({ tenderStyle, data, index }) => {
                     <StyledItem>
                         <StyledImage src={locationImage }/>
                         <StyledItemTitle>Region: </StyledItemTitle>
-                        <StyledItemLabel>{ region }</StyledItemLabel>
+                        <StyledItemLabel>{ region.split(",")[0] }</StyledItemLabel>
                     </StyledItem>
                     <StyledItem>
                         <StyledImage src={userImage }/>
